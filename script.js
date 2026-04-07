@@ -16,14 +16,25 @@ btn.addEventListener('click', () => {
     const total = calculateTotal(hours, rate, type);
     const status = getBudgetStatus(total);
 
-    document.getElementById('totalPrice').innerText = total;
+    const totalPriceElement = document.getElementById('totalPrice');
+    if (totalPriceElement) {
+        totalPriceElement.innerText = total;
+    }
+
     const statusLabel = document.getElementById('statusLabel');
-    statusLabel.innerText = status.text;
-    statusLabel.className = `status ${status.class}`;
+    if (statusLabel) {
+        statusLabel.innerText = status.text;
+        statusLabel.className = `status ${status.class}`;
+    }
     
-    resultArea.style.display = 'block';
+    if (resultArea) {
+        resultArea.style.display = 'block';
+    }
 });
+
 // Виводимо статус середовища (Development або Production)
-if (document.getElementById('status')) {
-    document.getElementById('status').innerText = import.meta.env.VITE_APP_STATUS;
+// Додано оператор ?. для безпечного доступу під час тестів у CI
+const statusContainer = document.getElementById('status');
+if (statusContainer) {
+    statusContainer.innerText = import.meta.env?.VITE_APP_STATUS || 'Development';
 }
