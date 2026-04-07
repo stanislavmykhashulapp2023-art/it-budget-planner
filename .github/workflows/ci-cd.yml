@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+# Коли запускати: при кожному push у гілку main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Копіюємо код репозиторію на віртуальну машину GitHub
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Встановлюємо Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Встановлюємо залежності
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Запускаємо лінтер (те, що ми робили в Лабі 3)
+      - name: Run Lint
+        run: npm run lint
+
+      # 5. Запускаємо Unit-тести (те, що ми робили в Лабі 2)
+      - name: Run Unit Tests
+        run: npm run test:unit:coverage
+
+      # 6. Збираємо артефакт (Build)
+      - name: Build Project
+        run: npm run build
