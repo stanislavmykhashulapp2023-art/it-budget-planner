@@ -6,7 +6,7 @@ export function calculateTotal(hours, rate, type) {
     // Коефіцієнти складності
     const multipliers = {
         web: 1.0,
-        mobile: 2.5,
+        mobile: 1.3,
         landing: 0.8
     };
 
